@@ -31,10 +31,41 @@ void setup() {
   braille_dots[86] = 23; // W is 010111
   braille_dots[87] = 45; // X is 101101
   braille_dots[88] = 47; // Y is 101111
-  braille_dots[89] = 43; // Z is 101011  
+  braille_dots[89] = 43; // Z is 101011
+
+  Serial.begin(9600);
+
+  // our pins
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  int a_as_int = (int)'A';
+  // int a_as_int = (int)'A';
+
+  if (Serial.available() > 0) {
+      byte = Serial.read();
+      int pin = 2;
+      int bit_num;
+      int array_num = 5;
+      
+      if (braille_dots[byte] != 999){
+          for (int i = 0; i < 6; ++i){
+              bit_num = 0 != (byte & (1 << i));
+              digitalWrite(bit_num, HIGH);
+              array_num--;
+              
+              }
+          pin++;
+          }
+      
+      else{
+          Serial.println("Invalid character.");
+          }
+    }
 }
