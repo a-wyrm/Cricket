@@ -1,9 +1,11 @@
 // character array for every ASCII character
 byte braille_dots[255];
+byte byte_1;
+
 void setup() {
   // put your setup code here, to run once:
-  for (int i = 0; i <= 255; i = i + 1) {
-    braille_dots[i] = 999;
+  for (int i = 0; i < 255; i = i + 1) {
+    braille_dots[i] = 99;
   }
 
   braille_dots[65] = 32; // A is 100000
@@ -33,8 +35,6 @@ void setup() {
   braille_dots[88] = 47; // Y is 101111
   braille_dots[89] = 43; // Z is 101011
 
-  Serial.begin(9600);
-
   // our pins
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
@@ -42,6 +42,9 @@ void setup() {
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
   pinMode(7, OUTPUT);
+  
+  Serial.begin(9600);
+  Serial.println("ASCII - Braille Translator");
 }
 
 void loop() {
@@ -49,14 +52,16 @@ void loop() {
   // int a_as_int = (int)'A';
 
   if (Serial.available() > 0) {
-      byte = Serial.read();
+      byte_1 = Serial.read();
+      Serial.println(byte_1);
+      Serial.println(braille_dots[byte_1]);
       int pin = 2;
       int bit_num;
       int array_num = 5;
       
-      if (braille_dots[byte] != 999){
+      if (braille_dots[byte_1] != 99){
           for (int i = 0; i < 6; ++i){
-              bit_num = 0 != (byte & (1 << i));
+              bit_num = 0 != (byte_1 & (1 << i));
               digitalWrite(bit_num, HIGH);
               array_num--;
               
