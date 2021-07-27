@@ -53,24 +53,26 @@ void loop() {
 
   if (Serial.available() > 0) {
       byte_1 = Serial.read();
-      Serial.println(byte_1);
-      Serial.println(braille_dots[byte_1]);
       int pin = 2;
       int bit_num;
-      int array_num = 5;
-      
+            
       if (braille_dots[byte_1] != 99){
           for (int i = 0; i < 6; ++i){
               bit_num = 0 != (byte_1 & (1 << i));
-              digitalWrite(bit_num, HIGH);
-              array_num--;
-              
+              if (pin <= 6){
+                Serial.println(pin);
+                digitalWrite(pin, HIGH);
+                pin++;
               }
-          pin++;
           }
+      }
+
+      else if (byte_1 == 10){
+        Serial.println("A newline character is encountered after the program ends. Ending program now.");
+      }
       
       else{
           Serial.println("Invalid character.");
-          }
+      }
     }
 }
